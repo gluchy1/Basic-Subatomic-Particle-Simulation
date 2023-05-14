@@ -24,7 +24,7 @@ charge = 5
 space = pymunk.Space()
 space.gravity = (0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Symulacja cząstek subatomowych')
+pygame.display.set_caption('Subatomic Particle Simulation')
 clock = pygame.time.Clock()
 
 # FAKE FOR SIMULATION PURPOSES
