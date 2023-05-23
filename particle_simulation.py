@@ -4,6 +4,7 @@ import pygame
 import pymunk
 import pickle
 from matplotlib import pyplot as plt
+from config import *
 
 """
 This particle simulation project provides a platform for visualizing
@@ -30,80 +31,58 @@ print(introduction)
 #                                       PARTICLE SIMULATION
 # ------------------------------------------------------------------------------------------------
 
-# const.
-PARTICLE_COUNT = 100
-TIME_STEP = 1 / 60.0
-BACKGROUND_COLOR = (255, 255, 255)
-MAGNETIC_FIELD_STRENGTH = 0.01
-PLANCK_CONSTANT = 6.62607015e-34
-BOLTZMANN_CONSTANT = 1.380649e-23
-THERMAL_DIFFUSIVITY = 1e-6
-charge = 5
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 600
-PARTICLE_RADIUS = 2
 
-#   Logika Symulacji i implementacja fizyki
+#   logika czasteczki
 
 
-def get_energy(particle):
-    return 0.5 * particle.mass * (particle.velocity.length ** 2)
+class Particle:
+    def __init__(self, space, mass, charge, radius, position, velocity, van_der_waals_radius):
+        self.body = pymunk.Body(mass, pymunk.moment_for_circle(mass, 0, radius))
+        self.body.position = position
+        self.body.velocity = velocity
+        self.body.charge = charge
+        self.shape = pymunk.Circle(self.body, radius)
+        self.shape.elasticity = 1.0
+        self.shape.friction = 0.0
+        self.shape.van_der_waals_radius = van_der_waals_radius
+        space.add(self.body, self.shape)
+
+    def get_energy(self):
+        return 0.5 * self.body.mass * (self.body.velocity.length ** 2)
+
+    def get_momentum(self):
+        return self.body.mass * self.body.velocity.length
+
+    def get_temperature(self):
+        return self.get_energy() / (self.body.mass * BOLTZMANN_CONSTANT)
+
+    def get_larmor_radius(self, magnetic_field_strength):
+        return (self.body.mass * self.body.velocity.length) / (abs(self.shape.charge) * magnetic_field_strength)
+
+    def get_de_broglie_wavelength(self):
+        return PLANCK_CONSTANT / self.get_momentum()
+
+    def get_boltzmann_distribution(self, energy, temperature):
+        return math.exp(-energy / (BOLTZMANN_CONSTANT * temperature))
+
+    def get_thermal_conductivity(self, other_particle, distance):
+        temperature_difference = abs(self.get_temperature() - other_particle.get_temperature())
+        return THERMAL_DIFFUSIVITY * temperature_difference / distance
 
 
-def get_momentum(particle):
-    return particle.mass * particle.velocity.length
+#   Dodanie logiki do czasteczek
 
-
-def get_temperature(particle):
-    return get_energy(particle) / (particle.mass * BOLTZMANN_CONSTANT)
-
-
-def get_larmor_radius(particle, magnetic_field_strength):
-    return (particle.mass * particle.velocity.length) / (abs(particle.shape.charge) * magnetic_field_strength)
-
-
-def get_de_broglie_wavelength(particle, planck_constant):
-    return planck_constant / get_momentum(particle)
-
-
-def get_boltzmann_distribution(energy, temperature, boltzmann_constant):
-    return math.exp(-energy / (boltzmann_constant * temperature))
-
-
-def get_thermal_conductivity(particles, thermal_diffusivity, distance):
-    particle1, particle2 = particles
-    temperature_difference = abs(get_temperature(particle1) - get_temperature(particle2))
-    return thermal_diffusivity * temperature_difference / distance
-
-
-def van_der_waals_force(particle1, particle2, c=1e-9):
-    distance = particle1.position.get_distance(particle2.position)
-    force_magnitude = c / (distance ** 6)
-    force_direction = (particle2.position - particle1.position).normalized()
+def electrostatic_force(particle1, particle2, k=8.9875517923e6):
+    distance = particle1.body.position.get_distance(particle2.body.position)
+    force_magnitude = k * particle1.body.charge * particle2.body.charge / (distance ** 2)
+    force_direction = (particle2.body.position - particle1.body.position).normalized()
     return force_direction * force_magnitude
 
 
-#   Stworzenie czasteczek
-
-def create_particle(space, mass, charge, radius, position, velocity, van_der_waals_radius):
-    body = pymunk.Body(mass, pymunk.moment_for_circle(mass, 0, radius))
-    body.position = position
-    body.velocity = velocity
-    body.charge = charge
-    shape = pymunk.Circle(body, radius)
-    shape.elasticity = 1.0
-    shape.friction = 0.0
-    shape.van_der_waals_radius = van_der_waals_radius
-    space.add(body, shape)
-    return body
-
-
-# Dodanie logiki do czasteczek
-
-def electrostatic_force(particle1, particle2, k=8.9875517923e6):
-    distance = particle1.position.get_distance(particle2.position)
-    force_magnitude = k * particle1.charge * particle2.charge / (distance ** 2)
-    force_direction = (particle2.position - particle1.position).normalized()
+def van_der_waals_force(particle1, particle2, a=1e-10, b=1e-3):
+    distance = particle1.body.position.get_distance(particle2.body.position)
+    force_magnitude = -a / (distance ** 2) + b / (distance ** 3)
+    force_direction = (particle2.body.position - particle1.body.position).normalized()
     return force_direction * force_magnitude
 
 
@@ -126,7 +105,7 @@ def handle_collision(arbiter):
     return True
 
 
-# Dodanie barier symulacji
+#   Dodanie barier symulacji
 
 def create_walls(space):
     walls = [
@@ -143,9 +122,12 @@ def create_walls(space):
     space.add(*walls)
 
 
+#   reset symulacji ("R")
 def reset_simulation(space, particles):
-    space.remove(*particles)
+    for particle in particles:
+        space.remove(particle.body, particle.shape)
     particles.clear()
+
     for _ in range(PARTICLE_COUNT):
         x = random.uniform(0, SCREEN_WIDTH)
         y = random.uniform(0, SCREEN_HEIGHT)
@@ -153,15 +135,17 @@ def reset_simulation(space, particles):
         charge = random.choice([-1, 1])
         velocity = pymunk.Vec2d(random.uniform(-100, 100), random.uniform(-100, 100))
         van_der_waals_radius = random.uniform(1e-10, 5e-10)
-        particle = create_particle(space, mass, charge, PARTICLE_RADIUS, (x, y), velocity, van_der_waals_radius)
+        particle = Particle(space, mass, charge, PARTICLE_RADIUS, (x, y), velocity, van_der_waals_radius)
         particles.append(particle)
 
+
+#   matplotlib
 
 plt.ion()
 fig, ax = plt.subplots()
 
 
-# main loop symulacji, ustawienia, inicjacja pygame itd.
+#   main loop symulacji, ustawienia, inicjacja pygame itd.
 
 
 def main():
@@ -219,37 +203,47 @@ def main():
         for i in range(len(particles)):
             for j in range(i + 1, len(particles)):
                 force = electrostatic_force(particles[i], particles[j])
-                particles[i].apply_force_at_local_point(force, (0, 0))
-                particles[j].apply_force_at_local_point(-force, (0, 0))
+                particles[i].body.apply_force_at_local_point(force, (0, 0))
+                particles[j].body.apply_force_at_local_point(-force, (0, 0))
 
                 van_der_waals = van_der_waals_force(particles[i], particles[j])
-                particles[i].apply_force_at_local_point(van_der_waals, (0, 0))
-                particles[j].apply_force_at_local_point(-van_der_waals, (0, 0))
+                particles[i].body.apply_force_at_local_point(van_der_waals, (0, 0))
+                particles[j].body.apply_force_at_local_point(-van_der_waals, (0, 0))
 
         if not paused:
             space.gravity = (0, -GRAVITATIONAL_CONSTANT * gravity_multiplier)
             space.step(TIME_STEP)
 
             screen.fill(BACKGROUND_COLOR)
-            max_kinetic_energy = max([0.5 * p.mass * (p.velocity.length ** 2) for p in particles])
+            max_kinetic_energy = max([0.5 * p.body.mass * (p.body.velocity.length ** 2) for p in particles])
+
             for particle in particles:
-                pos = particle.position
-                kinetic_energy = 0.5 * particle.mass * (particle.velocity.length ** 2)
-                color = (255 * kinetic_energy / max_kinetic_energy, 0, 255 * (1 - kinetic_energy / max_kinetic_energy))
+                pos = particle.body.position
+                kinetic_energy = 0.5 * particle.body.mass * (particle.body.velocity.length ** 2)
+                color = (
+                    255 * kinetic_energy / max_kinetic_energy,
+                    0,
+                    255 * (1 - kinetic_energy / max_kinetic_energy),
+                )
+
                 pygame.draw.circle(screen, color, (int(pos.x), int(pos.y)), PARTICLE_RADIUS)
 
                 if display_particle_info:
-                    velocity = particle.velocity.length
-                    mass = particle.mass
-                    charge = particle.charge
-                    energy = get_energy(particle)
-                    momentum = get_momentum(particle)
-                    temperature = get_temperature(particle)
-                    particle_info = f"V:{velocity:.1f} M:{mass:.1f} C:{charge} E:{energy:.1f} " \
-                                    f"P:{momentum:.1f} T:{temperature:.1f}"
+                    velocity = particle.body.velocity.length
+                    mass = particle.body.mass
+                    charge = particle.body.charge
+                    energy = particle.get_energy()
+                    momentum = particle.get_momentum()
+                    temperature = particle.get_temperature()
+                    particle_info = (
+                        f"V:{velocity:.1f} M:{mass:.1f} C:{charge} E:{energy:.1f} "
+                        f"P:{momentum:.1f} T:{temperature:.1f}"
+                    )
                     particle_text_surface = font.render(particle_info, True, (0, 0, 0))
-                    screen.blit(particle_text_surface, (int(pos.x) + PARTICLE_RADIUS
-                                                        + 10, int(pos.y) + PARTICLE_RADIUS + 10))
+                    screen.blit(
+                        particle_text_surface,
+                        (int(pos.x) + PARTICLE_RADIUS + 10, int(pos.y) + PARTICLE_RADIUS + 10),
+                    )
 
             description = [
                 f"Particles: {len(particles)}",
@@ -268,7 +262,7 @@ def main():
                 "GRAVITATIONAL_CONSTANT = 6.67430e-11",
                 "ELECTROSTATIC_CONSTANT = 8.9875517923e9",
                 "electrostatic_multiplier = 1e-12",
-                "gravity_multiplier = 1e10"
+                "gravity_multiplier = 1e10",
             ]
             y_offset = 10
 
