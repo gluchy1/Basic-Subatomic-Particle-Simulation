@@ -1,6 +1,12 @@
 # Particle Simulation with Gravitational and Electrostatic Forces  
 #### This code repository contains a very *(really!)* basic particle simulation implemented using the Pygame and pymunk libraries. The simulation aims to replicate the behavior of subatomic particles under the influence of gravitational and electrostatic forces.  
 *Note: Code for presentational purpose for learning how to implement various physics into python!*
+## To be fixed/changed:
+- Divide the code to separate python files to make it easier to read and modify,
+- Create main.py responsible only for running the simulation,
+- Make code easier to read,
+- Delete unused code
+
 ## Short summary:
 #### This particle simulation project provides a platform for visualizing the behavior of subatomic particles under gravitational and electrostatic forces. It offers control over simulation parameters, and the ability to save and load simulation states for further analysis. Feel free to explore and modify the code to suit your needs!
 
