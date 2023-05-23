@@ -15,7 +15,7 @@
 #### This particle simulation project provides a platform for visualizing the behavior of subatomic particles under gravitational and electrostatic forces. It offers control over simulation parameters, and the ability to save and load simulation states for further analysis. Ready to be modified, as it's really really basic.
 
 Be sure to install requirements.txt
-using: 'pip install -r requirements.txt' in your console.
+using: `pip install -r requirements.txt` in your console.
 
 To run the simulation, execute the following command:
 
