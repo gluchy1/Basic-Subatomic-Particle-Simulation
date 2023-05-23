@@ -11,6 +11,17 @@ Feel free to explore and modify the code to suit your needs!
 Be sure to install requirements.txt
 using: 'pip install -r requirements.txt' in your console.
 
+I've recently added some improvements to the code, since I've gained more knowledge, like:
+- divided one, long code to segments
+- added config.py
+- added tests.py (to be improved, since this is just a copy-paste)
+- added setupy.py (to be improved, not used rly.)
+- added requirements.txt which is necessary
+
+More to be included in the code, once I learn about it more.
+
+Note: I treat this repo not only as a side project, but as a main structure for learning coding.
+
 ---- @gluchy1 ---- 
 ---- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
 """
