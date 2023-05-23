@@ -1,28 +1,30 @@
-"""
-This particle simulation project provides a platform for visualizing
-the behavior of subatomic particles under gravitational and electrostatic forces.
-It offers control over simulation parameters, and the ability to save and load simulation states for further analysis.
-Feel free to explore and modify the code to suit your needs!
-
----- @gluchy1 ---- 
----- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
-"""
-
-introduction = f"""
-{'-'*40}
----- CC: @gluchy1 ---- 
----- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
-{'-'*40}
-"""
-
-print(introduction)
-
 import math
 import random
 import pygame
 import pymunk
 import pickle
 from matplotlib import pyplot as plt
+
+"""
+This particle simulation project provides a platform for visualizing
+the behavior of subatomic particles under gravitational and electrostatic forces.
+It offers control over simulation parameters, and the ability to save and load simulation states for further analysis.
+Feel free to explore and modify the code to suit your needs!
+
+Be sure to install requirements.txt
+using: 'pip install -r requirements.txt' in your console.
+
+---- @gluchy1 ---- 
+---- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
+"""
+
+introduction = (f"\n"
+                f"{'-' * 40}\n"
+                f"{'-' * 4} CC: @gluchy1 {'-' * 4}\n"
+                f"{'-' * 4} https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation {'-' * 4}\n"
+                f"{'-' * 40}\n")
+
+print(introduction)
 
 # ------------------------------------------------------------------------------------------------
 #                                       PARTICLE SIMULATION
@@ -53,6 +55,7 @@ GRAVITATIONAL_CONSTANT = 4
 ELECTROSTATIC_CONSTANT = 5
 electrostatic_multiplier = 3
 gravity_multiplier = 3
+
 
 # REAL CONST
 # GRAVITATIONAL_CONSTANT = 6.67430e-11
@@ -107,11 +110,13 @@ def get_thermal_conductivity(particles, thermal_diffusivity, distance):
     temperature_difference = abs(get_temperature(particle1) - get_temperature(particle2))
     return thermal_diffusivity * temperature_difference / distance
 
+
 def van_der_waals_force(particle1, particle2, C=1e-9):
     distance = particle1.position.get_distance(particle2.position)
     force_magnitude = C / (distance ** 6)
     force_direction = (particle2.position - particle1.position).normalized()
     return force_direction * force_magnitude
+
 
 #   Stworzenie czasteczek
 
@@ -127,6 +132,7 @@ def create_particle(space, mass, charge, radius, position, velocity, van_der_waa
     space.add(body, shape)
     return body
 
+
 # Dodanie logiki do czasteczek
 
 def electrostatic_force(particle1, particle2, k=8.9875517923e6):
@@ -135,14 +141,17 @@ def electrostatic_force(particle1, particle2, k=8.9875517923e6):
     force_direction = (particle2.position - particle1.position).normalized()
     return force_direction * force_magnitude
 
+
 def save_simulation_state(space, filename="simulation.pickle"):
     with open(filename, "wb") as file:
         pickle.dump(space, file)
+
 
 def load_simulation_state(filename="simulation.pickle"):
     with open(filename, "rb") as file:
         space = pickle.load(file)
     return space
+
 
 def handle_collision(arbiter, space, data):
     particle, wall = arbiter.shapes
@@ -150,6 +159,7 @@ def handle_collision(arbiter, space, data):
     impulse_per_unit_mass = impulse / particle.body.mass
     particle.body.velocity = particle.body.velocity - 2 * impulse_per_unit_mass
     return True
+
 
 # Dodanie barier symulacji
 
@@ -170,6 +180,7 @@ def create_walls(space):
 
 create_walls(space)
 
+
 def reset_simulation(space, particles):
     space.remove(*particles)
     particles.clear()
@@ -183,7 +194,7 @@ def reset_simulation(space, particles):
         particle = create_particle(space, mass, charge, PARTICLE_RADIUS, (x, y), velocity, van_der_waals_radius)
         particles.append(particle)
 
-        
+
 # listy
 
 
@@ -199,7 +210,6 @@ space.add_collision_handler(1, 0).begin = handle_collision
 
 plt.ion()
 fig, ax = plt.subplots()
-
 
 # main loop symulacji, obsluga klawiszy, opcje pygame
 
@@ -263,7 +273,7 @@ while running:
             if display_particle_info:
                 velocity = particle.velocity.length
                 mass = particle.mass
-                # charge = particle.shape.charge  # Updated line
+                # charge = particle.shape.charge
                 charge = particle.charge
                 energy = get_energy(particle)
                 momentum = get_momentum(particle)
@@ -274,7 +284,7 @@ while running:
                             (int(pos.x) + PARTICLE_RADIUS + 10, int(pos.y) + PARTICLE_RADIUS + 10))
 
             # etykiety okienka
-            
+
         description = [
             f"Particles: {len(particles)}",
             f"Space: {SCREEN_WIDTH}x{SCREEN_HEIGHT}",
@@ -302,7 +312,7 @@ while running:
             y_offset += 20
 
         pygame.display.flip()
-       
+
         # zegar symulacji
         clock.tick(60)
 
