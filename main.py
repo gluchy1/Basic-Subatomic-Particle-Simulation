@@ -1,10 +1,6 @@
-import math
-import random
 import pygame
-import pymunk
-import pickle
 from matplotlib import pyplot as plt
-from config import *
+from simulation import *
 
 """
 This particle simulation project provides a platform for visualizing
@@ -30,114 +26,6 @@ print(introduction)
 # ------------------------------------------------------------------------------------------------
 #                                       PARTICLE SIMULATION
 # ------------------------------------------------------------------------------------------------
-
-
-#   logika czasteczki
-
-
-class Particle:
-    def __init__(self, space, mass, charge, radius, position, velocity, van_der_waals_radius):
-        self.body = pymunk.Body(mass, pymunk.moment_for_circle(mass, 0, radius))
-        self.body.position = position
-        self.body.velocity = velocity
-        self.body.charge = charge
-        self.shape = pymunk.Circle(self.body, radius)
-        self.shape.elasticity = 1.0
-        self.shape.friction = 0.0
-        self.shape.van_der_waals_radius = van_der_waals_radius
-        space.add(self.body, self.shape)
-
-    def get_energy(self):
-        return 0.5 * self.body.mass * (self.body.velocity.length ** 2)
-
-    def get_momentum(self):
-        return self.body.mass * self.body.velocity.length
-
-    def get_temperature(self):
-        return self.get_energy() / (self.body.mass * BOLTZMANN_CONSTANT)
-
-    def get_larmor_radius(self, magnetic_field_strength):
-        return (self.body.mass * self.body.velocity.length) / (abs(self.shape.charge) * magnetic_field_strength)
-
-    def get_de_broglie_wavelength(self):
-        return PLANCK_CONSTANT / self.get_momentum()
-
-    def get_boltzmann_distribution(self, energy, temperature):
-        return math.exp(-energy / (BOLTZMANN_CONSTANT * temperature))
-
-    def get_thermal_conductivity(self, other_particle, distance):
-        temperature_difference = abs(self.get_temperature() - other_particle.get_temperature())
-        return THERMAL_DIFFUSIVITY * temperature_difference / distance
-
-
-#   Dodanie logiki do czasteczek
-
-def electrostatic_force(particle1, particle2, k=8.9875517923e6):
-    distance = particle1.body.position.get_distance(particle2.body.position)
-    force_magnitude = k * particle1.body.charge * particle2.body.charge / (distance ** 2)
-    force_direction = (particle2.body.position - particle1.body.position).normalized()
-    return force_direction * force_magnitude
-
-
-def van_der_waals_force(particle1, particle2, a=1e-10, b=1e-3):
-    distance = particle1.body.position.get_distance(particle2.body.position)
-    force_magnitude = -a / (distance ** 2) + b / (distance ** 3)
-    force_direction = (particle2.body.position - particle1.body.position).normalized()
-    return force_direction * force_magnitude
-
-
-def save_simulation_state(space, filename="simulation.pickle"):
-    with open(filename, "wb") as file:
-        pickle.dump(space, file)
-
-
-def load_simulation_state(filename="simulation.pickle"):
-    with open(filename, "rb") as file:
-        space = pickle.load(file)
-    return space
-
-
-def handle_collision(arbiter):
-    particle, wall = arbiter.shapes
-    impulse = arbiter.total_impulse
-    impulse_per_unit_mass = impulse / particle.body.mass
-    particle.body.velocity = particle.body.velocity - 2 * impulse_per_unit_mass
-    return True
-
-
-#   Dodanie barier symulacji
-
-def create_walls(space):
-    walls = [
-        pymunk.Segment(space.static_body, (0, 0), (0, SCREEN_HEIGHT), 1),
-        pymunk.Segment(space.static_body, (0, SCREEN_HEIGHT), (SCREEN_WIDTH, SCREEN_HEIGHT), 1),
-        pymunk.Segment(space.static_body, (SCREEN_WIDTH, SCREEN_HEIGHT), (SCREEN_WIDTH, 0), 1),
-        pymunk.Segment(space.static_body, (SCREEN_WIDTH, 0), (0, 0), 1),
-    ]
-
-    for wall in walls:
-        wall.elasticity = 1.0
-        wall.friction = 0.9
-
-    space.add(*walls)
-
-
-#   reset symulacji ("R")
-def reset_simulation(space, particles):
-    for particle in particles:
-        space.remove(particle.body, particle.shape)
-    particles.clear()
-
-    for _ in range(PARTICLE_COUNT):
-        x = random.uniform(0, SCREEN_WIDTH)
-        y = random.uniform(0, SCREEN_HEIGHT)
-        mass = random.uniform(1, 10)
-        charge = random.choice([-1, 1])
-        velocity = pymunk.Vec2d(random.uniform(-100, 100), random.uniform(-100, 100))
-        van_der_waals_radius = random.uniform(1e-10, 5e-10)
-        particle = Particle(space, mass, charge, PARTICLE_RADIUS, (x, y), velocity, van_der_waals_radius)
-        particles.append(particle)
-
 
 #   matplotlib
 
