@@ -1,3 +1,22 @@
+"""
+This particle simulation project provides a platform for visualizing
+the behavior of subatomic particles under gravitational and electrostatic forces.
+It offers control over simulation parameters, and the ability to save and load simulation states for further analysis.
+Feel free to explore and modify the code to suit your needs!
+
+---- @gluchy1 ---- 
+---- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
+"""
+
+introduction = f"""
+{'-'*40}
+---- CC: @gluchy1 ---- 
+---- https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation ----
+{'-'*40}
+"""
+
+print(introduction)
+
 import math
 import random
 import pygame
@@ -5,6 +24,8 @@ import pymunk
 import pickle
 from matplotlib import pyplot as plt
 
+# ------------------------------------------------------------------------------------------------
+#                                       PARTICLE SIMULATION
 # ------------------------------------------------------------------------------------------------
 
 pygame.init()
@@ -48,11 +69,14 @@ gravity_multiplier = 3
 #     shape.body.angle = random.uniform(0, 2 * math.pi)
 #     shape.elasticity = 0.95
 #     shape.friction = 0.9
-#     shape.collision_type = 1  # Dodajemy typ kolizji
-#     shape.charge = charge  # Dodajemy ładunek do kształtu
+#     shape.collision_type = 1      # typ kolizji
+#     shape.charge = charge         # ladunek ksztaltu
 #     shape.body.shape = shape
 #     space.add(shape.body)
 #     return shape.body
+
+
+#   Logika Symulacji i implementacja fizyki
 
 def get_energy(particle):
     return 0.5 * particle.mass * (particle.velocity.length ** 2)
@@ -89,6 +113,8 @@ def van_der_waals_force(particle1, particle2, C=1e-9):
     force_direction = (particle2.position - particle1.position).normalized()
     return force_direction * force_magnitude
 
+#   Stworzenie czasteczek
+
 def create_particle(space, mass, charge, radius, position, velocity, van_der_waals_radius):
     body = pymunk.Body(mass, pymunk.moment_for_circle(mass, 0, radius))
     body.position = position
@@ -100,6 +126,8 @@ def create_particle(space, mass, charge, radius, position, velocity, van_der_waa
     shape.van_der_waals_radius = van_der_waals_radius
     space.add(body, shape)
     return body
+
+# Dodanie logiki do czasteczek
 
 def electrostatic_force(particle1, particle2, k=8.9875517923e6):
     distance = particle1.position.get_distance(particle2.position)
@@ -123,6 +151,7 @@ def handle_collision(arbiter, space, data):
     particle.body.velocity = particle.body.velocity - 2 * impulse_per_unit_mass
     return True
 
+# Dodanie barier symulacji
 
 def create_walls(space):
     walls = [
@@ -154,7 +183,8 @@ def reset_simulation(space, particles):
         particle = create_particle(space, mass, charge, PARTICLE_RADIUS, (x, y), velocity, van_der_waals_radius)
         particles.append(particle)
 
-# ------------------------------------------------------------------------------------------------
+        
+# listy
 
 
 particles = []
@@ -170,7 +200,10 @@ space.add_collision_handler(1, 0).begin = handle_collision
 plt.ion()
 fig, ax = plt.subplots()
 
-# -------------------------------- MAIN LOOP ------------------------------------------------------
+
+# main loop symulacji, obsluga klawiszy, opcje pygame
+
+
 running = True
 paused = False
 display_particle_info = False
@@ -240,7 +273,8 @@ while running:
                 screen.blit(particle_text_surface,
                             (int(pos.x) + PARTICLE_RADIUS + 10, int(pos.y) + PARTICLE_RADIUS + 10))
 
-
+            # etykiety okienka
+            
         description = [
             f"Particles: {len(particles)}",
             f"Space: {SCREEN_WIDTH}x{SCREEN_HEIGHT}",
@@ -268,6 +302,8 @@ while running:
             y_offset += 20
 
         pygame.display.flip()
+       
+        # zegar symulacji
         clock.tick(60)
 
 pygame.quit()
