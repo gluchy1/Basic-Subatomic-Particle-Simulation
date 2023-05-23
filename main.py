@@ -28,21 +28,26 @@ Note: I treat this repo not only as a side project, but as a main structure for 
 """
 
 introduction = (f"\n"
-                f"{'-' * 40}\n"
-                f"{'-' * 4} CC: @gluchy1 {'-' * 4}\n"
+                f"{'-' * 72}\n"
+                f"{'-' * 4} CC: @gluchy1 {'-' * 54}\n"
                 f"{'-' * 4} https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation {'-' * 4}\n"
-                f"{'-' * 40}\n")
+                f"{'-' * 72}\n"
+                f"{'-' * 2} Reach out: gluchy#9422 {'-' * 46}\n")
 
 print(introduction)
 
-# ------------------------------------------------------------------------------------------------
-#                                       PARTICLE SIMULATION
-# ------------------------------------------------------------------------------------------------
+"""
+------------------------------------------------------------------------------------------------
+                                      PARTICLE SIMULATION
+------------------------------------------------------------------------------------------------
+"""
 
 #   matplotlib
+#       - komentarze do usunięcia wtedy kiedy zamiarem jest stworzenie grafu.
+#         Na ten moment graf nie działa i nie ma żadnej funkcji.
 
-plt.ion()
-fig, ax = plt.subplots()
+# plt.ion()
+# fig, ax = plt.subplots()
 
 
 def handle_events():
@@ -55,10 +60,10 @@ def handle_events():
 def main():
     #   main loop symulacji, ustawienia, inicjacja pygame itd.
 
-    handle_events()
-
     pygame.init()
     pygame.font.init()
+
+    handle_events()
 
     space = pymunk.Space()
     space.gravity = (0, 0)
