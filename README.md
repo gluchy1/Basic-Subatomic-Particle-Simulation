@@ -2,6 +2,8 @@
 #### This code repository contains a very *(really!)* basic particle simulation implemented using the Pygame and pymunk libraries. The simulation aims to replicate the behavior of subatomic particles under the influence of gravitational and electrostatic forces.  
 *Note: Code for presentational purpose for learning how to implement various physics into python!*
 ## To be fixed/changed:
+- setupy.py // __init__.py
+- instr.txt
 - Divide the code to separate python files to make it easier to read and modify,
 - Create main.py responsible only for running the simulation,
 - Make code easier to read,
