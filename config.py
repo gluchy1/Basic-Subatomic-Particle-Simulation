@@ -13,3 +13,7 @@ charge = 5
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 PARTICLE_RADIUS = 2
+GRAVITATIONAL_CONSTANT = 4
+ELECTROSTATIC_CONSTANT = 5
+electrostatic_multiplier = 3
+gravity_multiplier = 3

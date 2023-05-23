@@ -1,4 +1,5 @@
 import pygame
+import sys
 from matplotlib import pyplot as plt
 from simulation import *
 
@@ -44,10 +45,18 @@ plt.ion()
 fig, ax = plt.subplots()
 
 
-#   main loop symulacji, ustawienia, inicjacja pygame itd.
+def handle_events():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
 
 def main():
+    #   main loop symulacji, ustawienia, inicjacja pygame itd.
+
+    handle_events()
+
     pygame.init()
     pygame.font.init()
 
@@ -173,7 +182,6 @@ def main():
             pygame.display.flip()
             clock.tick(60)
 
-    pygame.quit()
     plt.ioff()
     plt.show()
 
