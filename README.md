@@ -3,7 +3,9 @@
 *Note: Code for presentational purpose for learning how to implement various physics into python!*
 ## To be fixed/changed:
 - setupy.py // __init__.py
-- instr.txt
+- instr.txt (?) .doc
+- add documentation
+- add input files and modify the code to operate on these files
 - Divide the code to separate python files to make it easier to read and modify,
 - Create main.py responsible only for running the simulation,
 - Make code easier to read,
