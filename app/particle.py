@@ -1,6 +1,6 @@
 import math
 import pymunk
-from config import *
+from app.config import *
 
 
 #   logika czasteczki

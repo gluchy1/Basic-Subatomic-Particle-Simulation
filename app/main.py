@@ -1,7 +1,7 @@
 import pygame
 import sys
 from matplotlib import pyplot as plt
-from simulation import *
+from app.simulation import *
 
 """
 This particle simulation project provides a platform for visualizing
@@ -48,7 +48,6 @@ print(introduction)
 
 # plt.ion()
 # fig, ax = plt.subplots()
-
 
 def handle_events():
     for event in pygame.event.get():

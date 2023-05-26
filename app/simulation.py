@@ -1,8 +1,8 @@
 import pickle
 import random
 import pymunk
-from config import *
-from particle import Particle
+from .config import *
+from .particle import Particle
 
 
 #   Dodanie logiki do czasteczek
