@@ -32,6 +32,95 @@
             
   <section id="welcome-to-basic-subatomic-particle-simulation-s-documentation">
 <h1>Welcome to Basic Subatomic Particle Simulation’s documentation!<a class="headerlink" href="#welcome-to-basic-subatomic-particle-simulation-s-documentation" title="Permalink to this heading">¶</a></h1>
+ <h1>Particle Simulation Documentation</h1>
+  <h2>Introduction</h2>
+  <p>Welcome to the documentation for the Particle Simulation project. This project provides a platform for visualizing the behavior of subatomic particles under gravitational and electrostatic forces. It offers control over simulation parameters and the ability to save and load simulation states for further analysis. Feel free to explore and modify the code to suit your needs!</p>
+  <h2>Installation</h2>
+  <p>To run the Particle Simulation, you need to have Python and the required dependencies installed. Follow the steps below to get started:</p>
+  <ol>
+    <li>Clone the project repository from GitHub: <a href="https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation">GitHub - gluchy1/Basic-Subatomic-Particle-Simulation</a></li>
+    <li>Navigate to the project directory.</li>
+    <li>Install the required dependencies by running the following command in your console:</li>
+  </ol>
+  <pre><code>pip install -r requirements.txt</code></pre>
+  <h2>Project Overview</h2>
+  <p>The Particle Simulation project consists of the following files and directories:</p>
+  <ul>
+    <li><code>main.py</code>: This is the entry point of the simulation. Run this file to start the simulation.</li>
+    <li><code>app/</code>: This directory contains the simulation logic and utility functions.
+      <ul>
+        <li><code>simulation.py</code>: This file contains the main logic of the particle simulation.</li>
+        <li><code>config.py</code>: This file contains configuration settings for the simulation.</li>
+        <li><code>particle.py</code>: This file defines the Particle class and its methods.</li>
+      </ul>
+    </li>
+    <li><code>requirements.txt</code>: This file lists the required Python dependencies for the project.</li>
+  </ul>
+  <h2>Usage</h2>
+  <p>To run the Particle Simulation, follow these steps:</p>
+  <ol>
+    <li>Make sure you have installed the required dependencies as mentioned in the Installation section.</li>
+    <li>Open a terminal or command prompt and navigate to the project directory.</li>
+    <li>Run the following command to start the simulation:</li>
+  </ol>
+  <pre><code>python gui.py</code></pre>
+      <p>Or without a GUI, in /app/ folder:</p>
+        <pre><code>python main.py</code></pre>
+  <p>Once the simulation window opens, you can interact with it using the following controls:</p>
+  <ul>
+    <li>Press the Space key to pause/resume the simulation.</li>
+    <li>Press the R key to reset the simulation.</li>
+    <li>Use the E and D keys to increase/decrease the electrostatic force.</li>
+    <li>Use the G and F keys to increase/decrease the gravity force.</li>
+    <li>Press the I key to toggle the display of particle information.</li>
+    <li>Press the S key to save the simulation state.</li>
+    <li>Press the L key to load a saved simulation state.</li>
+  </ul>
+  <h2>Simulation Logic</h2>
+  <p>The Particle Simulation is based on the interaction between particles, including gravitational and electrostatic forces. The main loop of the simulation handles events, updates particle positions, and renders the particles on the screen.</p>
+  <p>The simulation follows these steps:</p>
+  <ol>
+    <li>Initialize the Pygame library and set up the simulation environment.</li>
+    <li>Create a space for the particles using the Pymunk physics engine.</li>
+    <li>Handle user events, such as keyboard inputs and window close events.</li>
+    <li>Update the positions and forces of the particles based on the simulation parameters.</li>
+    <li>Render the particles on the screen using Pygame's drawing functions.</li>
+    <li>Display simulation information, such as particle count, simulation space, and control instructions.</li>
+    <li>Repeat the above steps until the user exits the simulation.</li>
+  </ol>
+  <h2>Particle Class</h2>
+  <p>The Particle class represents a subatomic particle in the simulation. It has the following properties and methods:</p>
+  <h3>Properties:</h3>
+  <ul>
+    <li><code>body</code>: A Pymunk Body object representing the physical properties of the particle.</li>
+    <li><code>shape</code>: A Pymunk Shape object representing the shape of the particle.</li>
+  </ul>
+  <h3>Methods:</h3>
+  <ul>
+    <li><code>get_energy()</code>: Calculates the kinetic energy of the particle.</li>
+    <li><code>get_momentum()</code>: Calculates the momentum of the particle.</li>
+    <li><code>get_temperature()</code>: Calculates the temperature of the particle.</li>
+    <li><code>get_larmor_radius(magnetic_field_strength)</code>: Calculates the Larmor radius of the particle in a given magnetic field.</li>
+    <li><code>get_de_broglie_wavelength()</code>: Calculates the De Broglie wavelength of the particle.</li>
+    <li><code>get_boltzmann_distribution(energy, temperature)</code>: Calculates the Boltzmann distribution for a given energy and temperature.</li>
+    <li><code>get_thermal_conductivity(other_particle, distance)</code>: Calculates the thermal conductivity between two particles.</li>
+  </ul>
+  <h2>Utility Functions</h2>
+  <p>The <code>simulation.py</code> file contains utility functions used in the simulation:</p>
+  <ul>
+    <li><code>electrostatic_force(particle1, particle2)</code>: Calculates the electrostatic force between two particles.</li>
+    <li><code>van_der_waals_force(particle1, particle2)</code>: Calculates the van der Waals force between two particles.</li>
+    <li><code>save_simulation_state(space, filename)</code>: Saves the current simulation state to a file.</li>
+    <li><code>load_simulation_state(filename)</code>: Loads a saved simulation state from a file.</li>
+    <li><code>handle_collision(arbiter)</code>: Handles collision events between particles and walls.</li>
+    <li><code>create_walls(space)</code>: Creates the walls that form the boundaries of the simulation.</li>
+    <li><code>reset_simulation(space, particles)</code>: Resets the simulation by removing existing particles and creating new ones.</li>
+  </ul>
+  <h2>Additional Information</h2>
+  <p>You can find the complete source code and documentation for the Particle Simulation project on GitHub: <a href="https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation">GitHub - gluchy1/Basic-Subatomic-Particle-Simulation</a></p>
+  <p>If you have any questions or suggestions, feel free to reach out to <a href="https://github.com/gluchy1">gluchy1</a> on GitHub.</p>
+  <h3>Note</h3>
+  <p>This project serves as a learning experience for coding and is treated as a main structure for learning purposes.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
