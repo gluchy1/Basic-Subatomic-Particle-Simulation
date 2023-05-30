@@ -1,6 +1,7 @@
 ![Vanilla-1s-234px (1)](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/6a62b2bd-78ae-4c81-876c-c9c4447bd5f9)![Vanilla-1s-234px (2)](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/5adc1325-cb79-4fd2-95d4-4632ada74bf7)![Vanilla-1s-122px](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/82ed93f6-c0f9-45bb-9f7e-7ba886553f7a)![Vanilla-1s-289px](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/7520708d-df82-45da-8d0d-89425783d0c1)![Vanilla-1s-155px](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/49452e2b-068c-4479-878b-da9168c084d5)![Vanilla-1s-289px (1)](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/5dd58d79-b6ce-475a-a65e-ce8c0f3fd65f)![Vanilla-1s-187px](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/c7d5adec-0373-45a3-b6ad-6ebd08d4a3ea)  
   
 ![ezgif com-gif-maker](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/b0a54d83-bdeb-443a-a9dd-03f4353295ce)
+> dimiss the liness
 
 
 # Particle Simulation with Gravitational and Electrostatic Forces  
