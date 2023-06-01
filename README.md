@@ -1,5 +1,5 @@
 ![ezgif com-gif-maker](https://github.com/gluchy1/Basic-Subatomic-Particle-Simulation/assets/70800019/b0a54d83-bdeb-443a-a9dd-03f4353295ce)
-> dimiss the liness
+>  dimiss the lines !
 
 
 # Particle Simulation with Gravitational and Electrostatic Forces  
