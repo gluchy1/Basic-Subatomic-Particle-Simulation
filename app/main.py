@@ -42,12 +42,6 @@ print(introduction)
 ------------------------------------------------------------------------------------------------
 """
 
-#   matplotlib
-#       - komentarze do usunięcia wtedy kiedy zamiarem jest stworzenie grafu.
-#         Na ten moment graf nie działa i nie ma żadnej funkcji.
-
-# plt.ion()
-# fig, ax = plt.subplots()
 
 def handle_events():
     for event in pygame.event.get():
@@ -57,7 +51,7 @@ def handle_events():
 
 
 def main():
-    #   main loop symulacji, ustawienia, inicjacja pygame itd.
+    #   main loop
 
     pygame.init()
     pygame.font.init()

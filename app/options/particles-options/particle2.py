@@ -9,10 +9,10 @@ class Particle:
         self.body.position = position
         self.body.velocity = velocity
         self.body.charge = charge
-        self.shape = pymunk.Circle(self.body, radius + charge)  # Dodajemy ładunek do promienia
-        self.shape.elasticity = 1.0 + charge  # Dodajemy ładunek do elastyczności
+        self.shape = pymunk.Circle(self.body, radius + charge)
+        self.shape.elasticity = 1.0 + charge
         self.shape.friction = 0.0
-        self.shape.van_der_waals_radius = van_der_waals_radius + charge  # Dodajemy ładunek do promienia van der Waalsa
+        self.shape.van_der_waals_radius = van_der_waals_radius + charge
         space.add(self.body, self.shape)
 
     def get_energy(self):
@@ -30,7 +30,7 @@ class Particle:
     def get_de_broglie_wavelength(self):
         return PLANCK_CONSTANT / (self.get_momentum() * self.body.charge)
 
-    def get_boltzmann_distribution(self, energy, temperature):
+    def get_boltzmann_distribution(self, energy):
         return math.exp(-energy / (self.body.mass * self.body.velocity.length))
 
     def get_thermal_conductivity(self, other_particle, distance):

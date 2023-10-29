@@ -30,7 +30,7 @@ if __name__ == "__main__":
     elif particle_option == "2":
         particle_path = "app/options/particles-options/particle2.py"
     elif particle_option == "3":
-        particle_path = DEFAULT_PARTICLE_FILE_PATH  # pass <-- rest yet to be implemented. Just testing some features.
+        particle_path = DEFAULT_PARTICLE_FILE_PATH  # pass
     elif particle_option == "4":
         particle_path = DEFAULT_PARTICLE_FILE_PATH  # pass
     elif particle_option == "5":
