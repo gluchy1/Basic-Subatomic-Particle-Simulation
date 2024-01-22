@@ -13,8 +13,6 @@ To run the Particle Simulation, you need to have Python and the required depende
 2.  Navigate to the project directory.
 3.  Install the required dependencies by running the following command in your console:
     
-    Copy code
-    
     `pip install -r requirements.txt` 
     
 
@@ -37,13 +35,10 @@ To run the Particle Simulation, follow these steps:
 2.  Open a terminal or command prompt and navigate to the project directory.
 3.  Run the following command to start the simulation:
     
-    Copy code
     
     `python gui.py` 
     
     Or without a GUI, in the `/app/` folder:
-    
-    cssCopy code
     
     `python main.py` 
     
